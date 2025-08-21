@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const multer = require("multer");
 const fs = require("fs");
 const User = require('./models/User')
+const Animal = require('./models/Animal')
 
 const app = express();
 
@@ -65,9 +66,29 @@ app.get("/animais", (req, res) => {
   res.json(animals);
 });
 
+app.post('/cadastroanimal', async (req, res) =>{
+  try {
+    const {nome, idade, raca, sexo, porte, peso, 
+      observacoes, castracao, imagem} = req.body;
+      const newAnimal = new Animal ({nome, idade, raca, sexo, porte, peso, 
+      observacoes, castracao, imagem})
+      await newAnimal.save();
+      res.status(201).json({message: "Animal cadastrado com sucesso"})  
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
+})
+
+app.get('/cadastroanimal', async (req, res) =>{
+  try {
+    const animals = await Animal.find();
+    res.status(200).json({animals})
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
+})
+
 //---------CADASTRO USUÁRIO---------------
-let users = [];
-let contadorUser = 0;
 
 app.post('/users', async (req,res) =>{
   try {
@@ -87,6 +108,23 @@ app.post('/users', async (req,res) =>{
     res.status(400).json.apply({error: "Erro ao cadastrar"})
   }
 })
+
+//--------------LOGIN----------
+app.post('/login', async(req, res) =>{
+  const {email, senha} = req.body;
+
+  const emailExist = await User.findOne({email});
+  if(!emailExist){
+    return res.status(400).json({message: "Email não cadastrado"})
+  }
+  const password = await User.findOne({senha});
+  if(!password){
+    return res.status(400).json({message: "Senha incorreta"})
+  }
+
+  res.status(200).json({message: "Login realizado com sucesso"})
+})
+
 app.listen (port, ()=>{
     console.log(`servidor iniciado com sucesso na porta ${port}`);
 });
