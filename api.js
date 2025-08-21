@@ -70,8 +70,11 @@ app.post('/cadastroanimal', async (req, res) =>{
   try {
     const {nome, idade, raca, sexo, porte, peso, 
       observacoes, castracao, imagem} = req.body;
-      const newAnimal = new Animal ({nome, idade, raca, sexo, porte, peso, 
-      observacoes, castracao, imagem})
+
+      const newAnimal = new Animal ({nome, idade, raca, sexo, 
+      porte, peso, observacoes, castracao, 
+      imagem:req.file ? `/public/${req.file.filename}` : null})
+
       await newAnimal.save();
       res.status(201).json({message: "Animal cadastrado com sucesso"})  
   } catch (error) {
