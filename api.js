@@ -41,34 +41,34 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage})
 
-//-------CADASTRO ANIMAIS----------------
-let contadorAnimal = 0;
-let animals =[];
 
-app.post("/animais", upload.single("imagem"), async (req, res)=>{
-  const newAnimal = {
-    id: contadorAnimal++,
-    nome: req.body.nome,
-    idade: req.body.idade,
-    raca: req.body.raca,
-    sexo: req.body.sexo,
-    porte: req.body.porte,
-    peso: req.body.peso,
-    observacoes: req.body.observacoes,
-    castracao: req.body.castracao,
-    imagem:req.file ? req.file.filename : null
-  };
-
-  animals.push(newAnimal);
-  res.status(201).json(newAnimal);
-});
-
-
-app.get("/animais", (req, res) => {
-  res.json(animals);
-});
-
-app.post('/cadastroanimal', async (req, res) =>{
+// app.post("/animais", upload.single("imagem"), async (req, res)=>{
+  //   const newAnimal = {
+    //     id: contadorAnimal++,
+    //     nome: req.body.nome,
+    //     idade: req.body.idade,
+    //     raca: req.body.raca,
+    //     sexo: req.body.sexo,
+    //     porte: req.body.porte,
+    //     peso: req.body.peso,
+    //     observacoes: req.body.observacoes,
+    //     castracao: req.body.castracao,
+    //     imagem:req.file ? req.file.filename : null
+    //   };
+    
+    //   animals.push(newAnimal);
+    //   res.status(201).json(newAnimal);
+    // });
+    // app.get("/animais", (req, res) => {
+    //   res.json(animals);
+    // });
+    
+    
+    //-------CADASTRO ANIMAIS----------------
+    let contadorAnimal = 0;
+    let animals =[];
+    
+app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
   try {
     const {nome, idade, raca, sexo, porte, peso, 
       observacoes, castracao, imagem} = req.body;
@@ -91,6 +91,23 @@ app.get('/cadastroanimal', async (req, res) =>{
   } catch (error) {
     res.status(400).json({error: error.message})
   }
+})
+
+app.put('/cadastroanimal', async (req, res) =>{
+  
+  try {
+    const {id} = req.query;
+    const {nome, idade, raca, sexo, porte, peso, 
+      observacoes, castracao} = req.body;
+
+      const animalAtualizado = await Animal.findByIdAndUpdate(
+        id,
+        {nome, idade, raca, sexo, porte, peso, observacoes, castracao},
+        {new: true});
+        res.json(animalAtualizado);
+      } catch (error) {
+        res.status(400).json({error: "Erro ao atualizar"})
+      }
 })
 
 //---------CADASTRO USUÁRIO---------------
