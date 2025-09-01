@@ -6,6 +6,8 @@ const multer = require("multer");
 const fs = require("fs");
 const User = require('./models/User')
 const Animal = require('./models/Animal')
+const Evento = require('./models/Evento')
+const Vacina = require ('./models/Vacina')
 
 const app = express();
 
@@ -127,6 +129,32 @@ app.post('/login', async(req, res) =>{
 
   res.status(200).json({message: "Login realizado com sucesso"})
 })
+
+//-----------------CADASTRO EVENTOS------------
+app.post('/cadastroeventos',  upload.single('imagem'), async (req, res) =>{
+  try {
+    const { idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
+      texto, eventoStatus} = req.body;
+      const newEvento = new Evento({idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
+        texto, eventoStatus, imagem:req.file ? `/public/${req.file.filename}` : null});
+        await newEvento.save();
+        res.status(200).json({message: "Evento cadastrado com sucesso!!!"})
+      } catch (error) {
+        res.status(400).json({error: "Erro ao cadastrar evento"})
+      }     
+});
+
+//------------------CADASTRO VACINAS-------
+app.post('/cadastrovacinas', async (req, res) =>{
+  try {
+    const {codVacina, idUsuario, nome, duracao} = req.body;
+    const newVacina = new Vacina({codVacina, idUsuario, nome, duracao})
+    await newVacina.save();
+    res.status(200).json({message: "Vacina cadastrada com sucesso!!!"})
+  } catch (error) {
+    res.status(400).json({error: "Erro ao cadastrar vacina"})
+  }
+  })
 
 app.listen (port, ()=>{
     console.log(`servidor iniciado com sucesso na porta ${port}`);
