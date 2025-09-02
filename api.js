@@ -7,7 +7,8 @@ const fs = require("fs");
 const User = require('./models/User')
 const Animal = require('./models/Animal')
 const Evento = require('./models/Evento')
-const Vacina = require ('./models/Vacina')
+const Vacina = require ('./models/Vacina');
+const { ppid } = require('process');
 
 const app = express();
 
@@ -110,6 +111,19 @@ app.put('/cadastroanimal', async (req, res) =>{
       }
 })
 
+app.delete('/cadastroanimal', async (req, res) =>{
+  try {
+    const {id} = req.query;
+    const animalDeletado = await Animal.findByIdAndDelete(id)
+    if (!animalDeletado){
+      return res.status(400).json({message: "Animal não encontrado"})
+    }
+    res.status(200).json({message: "Animal deletado com sucesso"})
+  } catch (error) {
+    res.status(400).json({error: "Erro ao deletar animal"})
+  }
+})
+
 //---------CADASTRO USUÁRIO---------------
 
 app.post('/users', async (req,res) =>{
@@ -129,6 +143,51 @@ app.post('/users', async (req,res) =>{
   } catch (error) {
     res.status(400).json.apply({error: "Erro ao cadastrar"})
   }
+})
+
+app.get('/users', async (req, res) =>{
+  try {
+    const usuarios = await User.find();
+    if (!usuarios){
+      return res.status(400).json({message: "Nenhum usuário encontrado"})
+    }
+    res.status(201).json({usuarios})
+
+  } catch (error) {
+    res.status(400).json({error: "Erro"})
+  }
+})
+
+app.put('/users', async (req, res) =>{
+  try {
+    const {id} = req.query;
+    const {nome, telefone, cnpj, userLogin, senha, email,
+           endereco, tipo, userStatus} = req.body;
+    const usuarioAtualizado = await User.findByIdAndUpdate(
+      id,
+      {nome, telefone, cnpj, userLogin, senha, email,
+       endereco, tipo, userStatus},
+       {new: true})
+       if (!usuarioAtualizado){
+        return res.status(400).json({message: "Usuário não encontrado"})
+       }
+       res.status(200).json(usuarioAtualizado) 
+    } catch (error) {
+       res.status(400).json({error: "Erro"})
+    }
+})
+
+app.delete('/users', async (req, res) =>{
+  try {
+    const {id} = req.query;
+    const usuarioDeletado = await User.findByIdAndUpdate(id)
+       if (!usuarioDeletado){
+        return res.status(400).json({message: "Usuário não encontrado"})
+       }
+       res.status(200).json(usuarioDeletado) 
+    } catch (error) {
+       res.status(400).json({error: "Erro"})
+    }
 })
 
 //--------------LOGIN----------
