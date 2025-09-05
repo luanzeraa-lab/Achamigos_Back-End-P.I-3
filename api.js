@@ -65,7 +65,7 @@ const upload = multer({storage})
     // });
     
     
-    //-------CADASTRO ANIMAIS----------------
+    //-------CADASTRO ANIMAIS----------------ok
     let contadorAnimal = 0;
     let animals =[];
     
@@ -124,7 +124,7 @@ app.delete('/cadastroanimal', async (req, res) =>{
   }
 })
 
-//---------CADASTRO USUÁRIO---------------
+//---------CADASTRO USUÁRIO---------------ok
 
 app.post('/users', async (req,res) =>{
   try {
@@ -151,7 +151,7 @@ app.get('/users', async (req, res) =>{
     if (!usuarios){
       return res.status(400).json({message: "Nenhum usuário encontrado"})
     }
-    res.status(201).json({usuarios})
+    res.status(201).json(usuarios)
 
   } catch (error) {
     res.status(400).json({error: "Erro"})
@@ -180,7 +180,7 @@ app.put('/users', async (req, res) =>{
 app.delete('/users', async (req, res) =>{
   try {
     const {id} = req.query;
-    const usuarioDeletado = await User.findByIdAndUpdate(id)
+    const usuarioDeletado = await User.findByIdAndDelete(id)
        if (!usuarioDeletado){
         return res.status(400).json({message: "Usuário não encontrado"})
        }
@@ -206,7 +206,7 @@ app.post('/login', async(req, res) =>{
   res.status(200).json({message: "Login realizado com sucesso"})
 })
 
-//-----------------CADASTRO EVENTOS------------
+//-----------------CADASTRO EVENTOS------------ok
 app.post('/cadastroeventos',  upload.single('imagem'), async (req, res) =>{
   try {
     const { idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
@@ -220,7 +220,53 @@ app.post('/cadastroeventos',  upload.single('imagem'), async (req, res) =>{
       }     
 });
 
-//------------------CADASTRO VACINAS-------
+  app.put('/cadastroeventos', async (req, res) =>{
+  try {
+    const {id} = req.query;
+    const {idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
+      texto, eventoStatus} = req.body;
+    
+    const eventoAtualizado = await Evento.findByIdAndUpdate(
+      id,
+      {idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
+      texto, eventoStatus},
+      {new: true}
+    )  
+    if(!eventoAtualizado){
+      return res.status(400).json({message: "Evento não encontrado"})
+    }
+    res.status(200).json({message:"Evento atualizado com sucesso"})
+  } catch (error) {
+    res.status(400).json({error: "Erro ao atualizar evento"})
+  }
+})
+
+app.delete('/cadastroeventos', async (req, res) =>{
+  try {
+    const {id} = req.query;
+    const eventoDeletado = await Evento.findByIdAndDelete(id);
+    if(!eventoDeletado){
+      return res.status(400).json({message: "Evento não encontrado"})
+    }
+    res.status(200).json({message: "Evento deletado com sucesso"})
+  } catch (error) {
+    res.status(400).json({error: "Erro ao deletar evento"})
+  }
+})
+
+app.get('/cadastroeventos', async (req, res) =>{
+  try {
+    const eventos = await Evento.find();
+    if(!eventos){
+     return res.status(400).json({message: "Nenhum evento cadastrado"})
+    }
+    res.status(200).json(eventos)
+  } catch (error) {
+    res.status(400).json({error: "Erro ao encontrar eventos"})
+  }
+})
+
+//------------------CADASTRO VACINAS-------ok
 app.post('/cadastrovacinas', async (req, res) =>{
   try {
     const {codVacina, idUsuario, nome, duracao} = req.body;
@@ -231,6 +277,51 @@ app.post('/cadastrovacinas', async (req, res) =>{
     res.status(400).json({error: "Erro ao cadastrar vacina"})
   }
   })
+
+  app.put('/cadastrovacinas', async (req, res) =>{
+    try {
+      const {id} = req.query;
+      const {codVacina, idUsuario, nome, duracao} = req.body;
+
+      const vacinaAtualizada = await Vacina.findByIdAndUpdate(
+        id,
+        {codVacina, idUsuario, nome, duracao},
+        {new: true}
+      )
+      if(!vacinaAtualizada){
+        return res.status(400).json({message: "Vacina não encontrada"})
+      }
+      res.status(200).json({message: "Vacina atualizada com sucesso"})
+    } catch (error) {
+      res.status(400).json({error: "Erro ao atualizar vacina"})
+    }
+  })
+
+  app.delete('/cadastrovacinas', async (req, res) =>{
+    try {
+      const {id} = req.query;
+      const vacinaDeletada = await Vacina.findByIdAndDelete(id);
+      
+      if(!vacinaDeletada){
+        res.status(400).json({message: "Vacina não encontrada"})
+      }
+      res.status(200).json({message: "Vacina deletada com sucesso"})
+    } catch (error) {
+      res.status(400).json({error: "Erro ao deletar vacina"})
+    }
+  })
+
+  app.get('/cadastrovacinas', async (req, res) =>{
+    try {
+      const vacinas = await Vacina.find();
+      if(!vacinas){
+        res.status(400).json({message: "Nenhuma vacina cadastrada"})
+      }
+      res.status(200).json(vacinas)
+    } catch (error) {
+      res.status(400).json({error: "Erro ao encontrar vacinas"})
+    }
+    })
 
 app.listen (port, ()=>{
     console.log(`servidor iniciado com sucesso na porta ${port}`);
