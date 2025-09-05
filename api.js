@@ -88,6 +88,9 @@ app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
 app.get('/cadastroanimal', async (req, res) =>{
   try {
     const animals = await Animal.find();
+    if(animals.length == 0){
+      res.status(400).json({message:"Nenhum animal cadastrado"})
+    }
     res.status(200).json({animals})
   } catch (error) {
     res.status(400).json({error: error.message})
@@ -141,14 +144,14 @@ app.post('/users', async (req,res) =>{
        res.status(201).json({message: "Usuário cadastrado com sucesso"})
 
   } catch (error) {
-    res.status(400).json.apply({error: "Erro ao cadastrar"})
+    res.status(400).json({error: "Erro ao cadastrar"})
   }
 })
 
 app.get('/users', async (req, res) =>{
   try {
     const usuarios = await User.find();
-    if (!usuarios){
+    if (usuarios.length == 0){
       return res.status(400).json({message: "Nenhum usuário encontrado"})
     }
     res.status(201).json(usuarios)
@@ -257,7 +260,7 @@ app.delete('/cadastroeventos', async (req, res) =>{
 app.get('/cadastroeventos', async (req, res) =>{
   try {
     const eventos = await Evento.find();
-    if(!eventos){
+    if(eventos.length == 0){
      return res.status(400).json({message: "Nenhum evento cadastrado"})
     }
     res.status(200).json(eventos)
@@ -314,7 +317,7 @@ app.post('/cadastrovacinas', async (req, res) =>{
   app.get('/cadastrovacinas', async (req, res) =>{
     try {
       const vacinas = await Vacina.find();
-      if(!vacinas){
+      if(vacinas.length == 0){
         res.status(400).json({message: "Nenhuma vacina cadastrada"})
       }
       res.status(200).json(vacinas)
