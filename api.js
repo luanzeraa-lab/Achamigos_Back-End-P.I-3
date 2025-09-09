@@ -41,33 +41,9 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({storage})
+    
 
-
-// app.post("/animais", upload.single("imagem"), async (req, res)=>{
-  //   const newAnimal = {
-    //     id: contadorAnimal++,
-    //     nome: req.body.nome,
-    //     idade: req.body.idade,
-    //     raca: req.body.raca,
-    //     sexo: req.body.sexo,
-    //     porte: req.body.porte,
-    //     peso: req.body.peso,
-    //     observacoes: req.body.observacoes,
-    //     castracao: req.body.castracao,
-    //     imagem:req.file ? req.file.filename : null
-    //   };
-    
-    //   animals.push(newAnimal);
-    //   res.status(201).json(newAnimal);
-    // });
-    // app.get("/animais", (req, res) => {
-    //   res.json(animals);
-    // });
-    
-    
     //-------CADASTRO ANIMAIS----------------ok
-    let contadorAnimal = 0;
-    let animals =[];
     
 app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
   try {
@@ -154,10 +130,10 @@ app.get('/users', async (req, res) =>{
     if (usuarios.length == 0){
       return res.status(400).json({message: "Nenhum usuário encontrado"})
     }
-    res.status(201).json(usuarios)
+    res.status(200).json(usuarios)
 
   } catch (error) {
-    res.status(400).json({error: "Erro"})
+    res.status(500).json({error: "Erro ao buscar usuários"})
   }
 })
 
@@ -195,21 +171,19 @@ app.delete('/users', async (req, res) =>{
 
 //--------------LOGIN----------
 app.post('/login', async(req, res) =>{
-  const {email, senha} = req.body;
-
-  const emailExist = await User.findOne({email});
-  if(!emailExist){
-    return res.status(400).json({message: "Email não cadastrado"})
+  try {
+    const {email, senha} = req.body;
+    const usuario = await User.findOne({email, senha});
+    if(!usuario){
+      return res.status(400).json({message: "Dados do usuario incorretos"})
+    }
+    res.status(200).json({message: "Login realizado com sucesso"})
+  } catch (error) {
+    res.status(500).json({error: "Erro ao realizar login"})
   }
-  const password = await User.findOne({senha});
-  if(!password){
-    return res.status(400).json({message: "Senha incorreta"})
-  }
+});
 
-  res.status(200).json({message: "Login realizado com sucesso"})
-})
-
-//-----------------CADASTRO EVENTOS------------ok
+  //--------------------CADASTRO EVENTOS------------ok
 app.post('/cadastroeventos',  upload.single('imagem'), async (req, res) =>{
   try {
     const { idEvento, idUsuario, data_Publicacao, data_Exclusao, tipo_Evento, 
