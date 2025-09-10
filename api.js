@@ -13,7 +13,7 @@ const { ppid } = require('process');
 const app = express();
 
 app.use(express.json());
-app.use(cors(["*"]));
+app.use(cors({ origin: "*" }));
 app.use('/public', express.static(`${__dirname}/public`));
 
 const port = 3002;
@@ -48,16 +48,16 @@ const upload = multer({storage})
 app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
   try {
     const {nome, idade, raca, sexo, porte, peso, 
-      observacoes, castracao, imagem} = req.body;
+      observacoes, castracao} = req.body;
 
       const newAnimal = new Animal ({nome, idade, raca, sexo, 
       porte, peso, observacoes, castracao, 
       imagem:req.file ? `/public/${req.file.filename}` : null})
 
       await newAnimal.save();
-      res.status(201).json({message: "Animal cadastrado com sucesso"})  
+      return res.status(201).json({message: "Animal cadastrado com sucesso"})  
   } catch (error) {
-    res.status(400).json({error: error.message})
+    return res.status(400).json({error: error.message})
   }
 })
 
@@ -67,7 +67,7 @@ app.get('/cadastroanimal', async (req, res) =>{
     if(animals.length == 0){
       res.status(400).json({message:"Nenhum animal cadastrado"})
     }
-    res.status(200).json({animals})
+    res.status(200).json(animals)
   } catch (error) {
     res.status(400).json({error: error.message})
   }
