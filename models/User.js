@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const EnderecoSchema = new mongoose.Schema({
+    cep: {type: String, required: true},
     rua:{type: String, required: true},
     cidade: {type: String, required: true},
     numero: {type: String, required: true}
