@@ -107,7 +107,7 @@ app.delete('/cadastroanimal', async (req, res) =>{
 
 app.post('/users', async (req,res) =>{
   try {
-    const {nome, telefone, cnpj, userLogin, senha, email, endereco, tipo, userStatus} = req.body;
+    const {nome, telefone, cnpj, userLogin, senha, email, endereco, tipo, userStatus, linkUser} = req.body;
     
     const userExist = await User.findOne({email});
     if (userExist){
@@ -115,11 +115,12 @@ app.post('/users', async (req,res) =>{
     }
 
     const newUser = new User({nome, telefone, cnpj, userLogin, senha, email,
-       endereco, tipo, userStatus})
+       endereco, tipo, userStatus, linkUser})
        await newUser.save();
        res.status(201).json({message: "Usuário cadastrado com sucesso"})
 
   } catch (error) {
+    console.log(error);
     res.status(400).json({error: "Erro ao cadastrar"})
   }
 })
@@ -141,11 +142,11 @@ app.put('/users', async (req, res) =>{
   try {
     const {id} = req.query;
     const {nome, telefone, cnpj, userLogin, senha, email,
-           endereco, tipo, userStatus} = req.body;
+           endereco, tipo, userStatus, linkUser} = req.body;
     const usuarioAtualizado = await User.findByIdAndUpdate(
       id,
       {nome, telefone, cnpj, userLogin, senha, email,
-       endereco, tipo, userStatus},
+       endereco, tipo, userStatus, linkUser},
        {new: true})
        if (!usuarioAtualizado){
         return res.status(400).json({message: "Usuário não encontrado"})
