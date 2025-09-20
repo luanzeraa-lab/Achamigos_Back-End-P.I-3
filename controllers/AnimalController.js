@@ -1,3 +1,4 @@
+const { json } = require('express');
 const AnimalModel = require('../models/AnimalModel');
 
 
@@ -7,6 +8,22 @@ exports.cadastrarAnimal = async (req, res) =>{
       const animalCadastrado = await AnimalModel.cadastrarAnimal(req.body, req.file);
       return res.status(201).json(animalCadastrado)  
   } catch (error) {
+    return res.status(400).json({error: error.message})
+  }
+}
+
+exports.alterarAnimal = async (req, res) =>{
+    try {
+    const {id} = req.params;
+    const dados = req.body
+    const animalAlterado = await AnimalModel.alterarAnimal(id, dados);
+   
+    if (!animalAlterado) {
+      return res.status(404).json({ error: "Animal não encontrado" });
+    }
+   
+     res.status(200).json(animalAlterado)
+     } catch (error) {
     return res.status(400).json({error: error.message})
   }
 }
@@ -23,12 +40,6 @@ exports.cadastrarAnimal = async (req, res) =>{
 //   }
 // }
 
-// exports.alterarAnimal = async (req, res) =>{
-//     try {
-//     const {id} = req.query;
-//     const {nome, idade, raca, sexo, porte, peso, 
-//         observacoes, castracao} = req.body;
-    
 //     const animalAtualizado = await Animal.findByIdAndUpdate(
 //     id,
 //     {nome, idade, raca, sexo, porte, peso, observacoes, castracao},

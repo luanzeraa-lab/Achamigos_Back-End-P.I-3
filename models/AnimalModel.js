@@ -21,7 +21,14 @@ const cadastrarAnimal = async (dados, file) => {
   });
   return await novoAnimal.save();
 };
-module.exports = {Animal, cadastrarAnimal};
+
+const alterarAnimal = async (id, dados) => {
+   return await Animal.findByIdAndUpdate(
+    id,
+    dados,
+  {new: true});
+}
+module.exports = {Animal, cadastrarAnimal, alterarAnimal};
 
 
 

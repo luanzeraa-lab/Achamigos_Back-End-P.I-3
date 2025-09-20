@@ -15,9 +15,9 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
     
 router.post('/cadastroanimal', upload.single('imagem'), animalController.cadastrarAnimal);
-// router.put('/cadastroanimal', (animalController.alterarAnimal));
+router.put('/cadastroanimal/:id', (animalController.alterarAnimal));
 // router.get('/cadastroanimal', (animalController.listarAnimal));
-// router.delete('/cadastroanimal', (animalController.deletarAnimal));
+// router.delete('/cadastroanimal/:id', (animalController.deletarAnimal));
 
 
 module.exports = router;

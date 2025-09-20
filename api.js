@@ -53,21 +53,6 @@ const upload = multer({storage})
 
     //-------CADASTRO ANIMAIS----------------ok
     
-// app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
-//   try {
-//     const {nome, idade, raca, sexo, porte, peso, 
-//       observacoes, castracao} = req.body;
-
-//       const newAnimal = new Animal ({nome, idade, raca, sexo, 
-//       porte, peso, observacoes, castracao, 
-//       imagem:req.file ? `/public/${req.file.filename}` : null})
-
-//       await newAnimal.save();
-//       return res.status(201).json({message: "Animal cadastrado com sucesso"})  
-//   } catch (error) {
-//     return res.status(400).json({error: error.message})
-//   }
-// })
 
 app.get('/cadastroanimal', async (req, res) =>{
   try {
@@ -81,22 +66,22 @@ app.get('/cadastroanimal', async (req, res) =>{
   }
 })
 
-app.put('/cadastroanimal', async (req, res) =>{
+// app.put('/cadastroanimal', async (req, res) =>{
   
-  try {
-    const {id} = req.query;
-    const {nome, idade, raca, sexo, porte, peso, 
-      observacoes, castracao} = req.body;
+//   try {
+//     const {id} = req.query;
+//     const {nome, idade, raca, sexo, porte, peso, 
+//       observacoes, castracao} = req.body;
 
-      const animalAtualizado = await Animal.findByIdAndUpdate(
-        id,
-        {nome, idade, raca, sexo, porte, peso, observacoes, castracao},
-        {new: true});
-        res.json(animalAtualizado);
-      } catch (error) {
-        res.status(400).json({error: "Erro ao atualizar"})
-      }
-})
+//       const animalAtualizado = await Animal.findByIdAndUpdate(
+//         id,
+//         {nome, idade, raca, sexo, porte, peso, observacoes, castracao},
+//         {new: true});
+//         res.json(animalAtualizado);
+//       } catch (error) {
+//         res.status(400).json({error: "Erro ao atualizar"})
+//       }
+// })
 
 app.delete('/cadastroanimal', async (req, res) =>{
   try {
