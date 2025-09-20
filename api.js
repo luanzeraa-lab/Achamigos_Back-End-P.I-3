@@ -5,14 +5,14 @@ const mongoose = require('mongoose')
 const multer = require("multer");
 const fs = require("fs");
 const User = require('./models/User')
-const Animal = require('./models/Animal')
+const Animal = require('./models/AnimalModel')
 const Evento = require('./models/Evento')
 const Vacina = require ('./models/Vacina');
 const { ppid } = require('process');
-
+console.log("MONGO_URI =", process.env.MONGO_URI);
 const animalRoute = require('./routes/AnimalRoute');
-const userRoute = require('./routes/UserRoute');
-const eventoRoute = require('./routes/EventoRoute');
+// const userRoute = require('./routes/UserRoute');
+// const eventoRoute = require('./routes/EventoRoute');
 
 const app = express();
 
@@ -21,8 +21,8 @@ app.use(cors({ origin: "*" }));
 app.use('/public', express.static(`${__dirname}/public`));
 
 app.use(animalRoute);
-app.use(userRoute);
-app.use(eventoRoute);
+// app.use(userRoute);
+// app.use(eventoRoute);
 
 const port = 3002;
 
@@ -53,21 +53,21 @@ const upload = multer({storage})
 
     //-------CADASTRO ANIMAIS----------------ok
     
-app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
-  try {
-    const {nome, idade, raca, sexo, porte, peso, 
-      observacoes, castracao} = req.body;
+// app.post('/cadastroanimal', upload.single("imagem"), async (req, res) =>{
+//   try {
+//     const {nome, idade, raca, sexo, porte, peso, 
+//       observacoes, castracao} = req.body;
 
-      const newAnimal = new Animal ({nome, idade, raca, sexo, 
-      porte, peso, observacoes, castracao, 
-      imagem:req.file ? `/public/${req.file.filename}` : null})
+//       const newAnimal = new Animal ({nome, idade, raca, sexo, 
+//       porte, peso, observacoes, castracao, 
+//       imagem:req.file ? `/public/${req.file.filename}` : null})
 
-      await newAnimal.save();
-      return res.status(201).json({message: "Animal cadastrado com sucesso"})  
-  } catch (error) {
-    return res.status(400).json({error: error.message})
-  }
-})
+//       await newAnimal.save();
+//       return res.status(201).json({message: "Animal cadastrado com sucesso"})  
+//   } catch (error) {
+//     return res.status(400).json({error: error.message})
+//   }
+// })
 
 app.get('/cadastroanimal', async (req, res) =>{
   try {

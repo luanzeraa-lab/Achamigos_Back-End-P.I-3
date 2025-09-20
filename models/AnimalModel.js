@@ -12,18 +12,17 @@ const AnimalSchema = new mongoose.Schema({
     imagem: {type: String}
 });
 
-AnimalSchema.statics.cadastrarAnimal = async  (dados, file) => {
-  const novoAnimal = new this({
+const Animal = mongoose.model("Animal", AnimalSchema)
+
+const cadastrarAnimal = async (dados, file) => {
+  const novoAnimal = new Animal({
     ...dados,
-    imagem: file ? `/public/${file.filename}` : null
+    imagem: file? `/public/${file.filename}` : null
   });
   return await novoAnimal.save();
 };
+module.exports = {Animal, cadastrarAnimal};
 
-AnimalSchema.methods.resumo = function () {
-  return `${this.nome} (${this.raca}) - Porte: ${this.porte}`;
-};
 
-const Animal = mongoose.model("Animal", AnimalSchema);
-module.exports = Animal;
+
 
