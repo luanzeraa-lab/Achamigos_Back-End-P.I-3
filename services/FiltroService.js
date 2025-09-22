@@ -17,5 +17,13 @@ console.log("Animais encontrados:", animaisFiltrados);
         return animaisFiltrados;
 
     }
+
+    static async filtrarAnimaisPorPorte(porte){
+        const porteAnimal = await Animal.find({'porte': porte});
+        if (!porteAnimal.length){
+            return [];
+        }
+        return porteAnimal;
+    }
 }
 module.exports = FiltroService;
