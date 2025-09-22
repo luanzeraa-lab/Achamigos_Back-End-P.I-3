@@ -9,7 +9,12 @@ const AnimalSchema = new mongoose.Schema({
     peso: {type: String}, 
     observacoes: {type: String},
     castracao: {type: Boolean, required:true},
-    imagem: {type: String}
+    imagem: {type: String},
+    userId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    }
 });
 
 const Animal = mongoose.model("Animal", AnimalSchema)

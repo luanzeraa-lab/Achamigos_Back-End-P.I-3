@@ -4,14 +4,15 @@ const cors = require("cors");
 const mongoose = require('mongoose')
 const multer = require("multer");
 const fs = require("fs");
-const User = require('./models/User')
+const User = require('./models/UserModel')
 const Animal = require('./models/AnimalModel')
 const Evento = require('./models/Evento')
 const Vacina = require ('./models/Vacina');
 const { ppid } = require('process');
 console.log("MONGO_URI =", process.env.MONGO_URI);
 const animalRoute = require('./routes/AnimalRoute');
-// const userRoute = require('./routes/UserRoute');
+const userRoute = require('./routes/UserRoute');
+const filtroRoute = require('./routes/FiltroRoute');
 // const eventoRoute = require('./routes/EventoRoute');
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/public', express.static(`${__dirname}/public`));
 app.use(animalRoute);
 // app.use(userRoute);
 // app.use(eventoRoute);
+app.use('/filtros', filtroRoute);
 
 const port = 3002;
 
