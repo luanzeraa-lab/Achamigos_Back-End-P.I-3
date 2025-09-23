@@ -6,7 +6,7 @@ const AnimalModel = require('../models/AnimalModel');
 exports.cadastrarAnimal = async (req, res) =>{
   try {
       const animalCadastrado = await AnimalModel.cadastrarAnimal(req.body, req.file);
-      return res.status(201).json(animalCadastrado)  
+       res.status(201).json(animalCadastrado)  
   } catch (error) {
     return res.status(400).json({error: error.message})
   }
@@ -28,17 +28,17 @@ exports.alterarAnimal = async (req, res) =>{
   }
 }
 
-// exports.listarAnimal = async (req, res) =>{
-//   try {
-//     const animals = await Animal.find();
-//     if(animals.length == 0){
-//       res.status(400).json({message:"Nenhum animal cadastrado"})
-//     }
-//     res.status(200).json(animals)
-//   } catch (error) {
-//     res.status(400).json({error: error.message})
-//   }
-// }
+exports.listarAnimal = async (req, res) =>{
+  try {
+    const animais = await AnimalModel.listarAnimais();
+    if(!animais){
+      return res.status(404).json({message: "Nenhum animal encontrado"})
+    }
+    res.status(200).json(animais)
+  } catch (error) {
+    res.status(400).json({error: error.message})
+  }
+}
 
 //     const animalAtualizado = await Animal.findByIdAndUpdate(
 //     id,

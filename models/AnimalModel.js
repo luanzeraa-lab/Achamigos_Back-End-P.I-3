@@ -33,7 +33,17 @@ const alterarAnimal = async (id, dados) => {
     dados,
   {new: true});
 }
-module.exports = {Animal, cadastrarAnimal, alterarAnimal};
+
+const deletarAnimal = async (id) => {
+  return await Animal.findByIdAndDelete(
+    id
+  );
+}
+
+const listarAnimais = async (req, res) => {
+    return await Animal.find();
+}
+module.exports = {Animal, cadastrarAnimal, alterarAnimal, deletarAnimal, listarAnimais};
 
 
 

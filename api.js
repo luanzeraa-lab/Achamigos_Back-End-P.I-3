@@ -9,6 +9,8 @@ const Animal = require('./models/AnimalModel')
 const Evento = require('./models/Evento')
 const Vacina = require ('./models/Vacina');
 const { ppid } = require('process');
+
+
 console.log("MONGO_URI =", process.env.MONGO_URI);
 const animalRoute = require('./routes/AnimalRoute');
 const userRoute = require('./routes/UserRoute');
@@ -68,22 +70,6 @@ app.get('/cadastroanimal', async (req, res) =>{
   }
 })
 
-// app.put('/cadastroanimal', async (req, res) =>{
-  
-//   try {
-//     const {id} = req.query;
-//     const {nome, idade, raca, sexo, porte, peso, 
-//       observacoes, castracao} = req.body;
-
-//       const animalAtualizado = await Animal.findByIdAndUpdate(
-//         id,
-//         {nome, idade, raca, sexo, porte, peso, observacoes, castracao},
-//         {new: true});
-//         res.json(animalAtualizado);
-//       } catch (error) {
-//         res.status(400).json({error: "Erro ao atualizar"})
-//       }
-// })
 
 app.delete('/cadastroanimal', async (req, res) =>{
   try {
