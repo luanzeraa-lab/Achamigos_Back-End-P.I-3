@@ -24,7 +24,7 @@ app.use(cors({ origin: "*" }));
 app.use('/public', express.static(`${__dirname}/public`));
 
 app.use(animalRoute);
-// app.use(userRoute);
+app.use(userRoute);
 // app.use(eventoRoute);
 app.use('/filtros', filtroRoute);
 
@@ -86,70 +86,70 @@ app.delete('/cadastroanimal', async (req, res) =>{
 
 //---------CADASTRO USUÁRIO---------------ok
 
-app.post('/users', async (req,res) =>{
-  try {
-    const {nome, telefone, cnpj, userLogin, senha, email, endereco, tipo, userStatus, linkUser} = req.body;
+// app.post('/users', async (req,res) =>{
+//   try {
+//     const {nome, telefone, cnpj, userLogin, senha, email, endereco, tipo, userStatus, linkUser} = req.body;
     
-    const userExist = await User.findOne({email});
-    if (userExist){
-      return res.status(400).json({message: "Email já cadastrado"})
-    }
+//     const userExist = await User.findOne({email});
+//     if (userExist){
+//       return res.status(400).json({message: "Email já cadastrado"})
+//     }
 
-    const newUser = new User({nome, telefone, cnpj, userLogin, senha, email,
-       endereco, tipo, userStatus, linkUser})
-       await newUser.save();
-       res.status(201).json({message: "Usuário cadastrado com sucesso"})
+//     const newUser = new User({nome, telefone, cnpj, userLogin, senha, email,
+//        endereco, tipo, userStatus, linkUser})
+//        await newUser.save();
+//        res.status(201).json({message: "Usuário cadastrado com sucesso"})
 
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({error: "Erro ao cadastrar"})
-  }
-})
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).json({error: "Erro ao cadastrar"})
+//   }
+// })
 
-app.get('/users', async (req, res) =>{
-  try {
-    const usuarios = await User.find();
-    if (usuarios.length == 0){
-      return res.status(400).json({message: "Nenhum usuário encontrado"})
-    }
-    res.status(200).json(usuarios)
+// app.get('/users', async (req, res) =>{
+//   try {
+//     const usuarios = await User.find();
+//     if (usuarios.length == 0){
+//       return res.status(400).json({message: "Nenhum usuário encontrado"})
+//     }
+//     res.status(200).json(usuarios)
 
-  } catch (error) {
-    res.status(500).json({error: "Erro ao buscar usuários"})
-  }
-})
+//   } catch (error) {
+//     res.status(500).json({error: "Erro ao buscar usuários"})
+//   }
+// })
 
-app.put('/users', async (req, res) =>{
-  try {
-    const {id} = req.query;
-    const {nome, telefone, cnpj, userLogin, senha, email,
-           endereco, tipo, userStatus, linkUser} = req.body;
-    const usuarioAtualizado = await User.findByIdAndUpdate(
-      id,
-      {nome, telefone, cnpj, userLogin, senha, email,
-       endereco, tipo, userStatus, linkUser},
-       {new: true})
-       if (!usuarioAtualizado){
-        return res.status(400).json({message: "Usuário não encontrado"})
-       }
-       res.status(200).json(usuarioAtualizado) 
-    } catch (error) {
-       res.status(400).json({error: "Erro"})
-    }
-})
+// app.put('/users', async (req, res) =>{
+//   try {
+//     const {id} = req.query;
+//     const {nome, telefone, cnpj, userLogin, senha, email,
+//            endereco, tipo, userStatus, linkUser} = req.body;
+//     const usuarioAtualizado = await User.findByIdAndUpdate(
+//       id,
+//       {nome, telefone, cnpj, userLogin, senha, email,
+//        endereco, tipo, userStatus, linkUser},
+//        {new: true})
+//        if (!usuarioAtualizado){
+//         return res.status(400).json({message: "Usuário não encontrado"})
+//        }
+//        res.status(200).json(usuarioAtualizado) 
+//     } catch (error) {
+//        res.status(400).json({error: "Erro"})
+//     }
+// })
 
-app.delete('/users', async (req, res) =>{
-  try {
-    const {id} = req.query;
-    const usuarioDeletado = await User.findByIdAndDelete(id)
-       if (!usuarioDeletado){
-        return res.status(400).json({message: "Usuário não encontrado"})
-       }
-       res.status(200).json(usuarioDeletado) 
-    } catch (error) {
-       res.status(400).json({error: "Erro"})
-    }
-})
+// app.delete('/users', async (req, res) =>{
+//   try {
+//     const {id} = req.query;
+//     const usuarioDeletado = await User.findByIdAndDelete(id)
+//        if (!usuarioDeletado){
+//         return res.status(400).json({message: "Usuário não encontrado"})
+//        }
+//        res.status(200).json(usuarioDeletado) 
+//     } catch (error) {
+//        res.status(400).json({error: "Erro"})
+//     }
+// })
 
 //--------------LOGIN----------
 app.post('/login', async(req, res) =>{

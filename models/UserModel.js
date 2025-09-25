@@ -19,4 +19,26 @@ const UserSchema = new mongoose.Schema({
     userStatus: {type: String, required: true},
     linkUser: {type: String}
 });
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema)
+
+const cadastrarUser = async (dados) => {
+  const newUser = new User({
+    ...dados
+  });
+  return await newUser.save();
+};
+
+const alterarUser = async (id, dados) => {
+   return await User.findByIdAndUpdate(
+    id,
+    dados,
+  {new: true});
+}
+
+const deletarUser = async (id) => {
+  return await User.findByIdAndDelete(
+    id
+  );
+}
+
+module.exports = {User, cadastrarUser, alterarUser, deletarUser};
