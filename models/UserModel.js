@@ -35,10 +35,8 @@ const alterarUser = async (id, dados) => {
   {new: true});
 }
 
-const deletarUser = async (id) => {
-  return await User.findByIdAndDelete(
-    id
-  );
+const excluirUser = async (id) => {
+  return await User.findByIdAndDelete(id);
 }
 
-module.exports = {User, cadastrarUser, alterarUser, deletarUser};
+module.exports = {User, cadastrarUser, alterarUser, excluirUser};

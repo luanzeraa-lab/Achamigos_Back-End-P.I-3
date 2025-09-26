@@ -19,6 +19,10 @@ const AnimalSchema = new mongoose.Schema({
 
 const Animal = mongoose.model("Animal", AnimalSchema)
 
+const listarAnimais = async (req, res) => {
+    return await Animal.find();
+}
+
 const cadastrarAnimal = async (dados, file) => {
   const novoAnimal = new Animal({
     ...dados,
@@ -34,16 +38,13 @@ const alterarAnimal = async (id, dados) => {
   {new: true});
 }
 
-const deletarAnimal = async (id) => {
+const excluirAnimal = async (id) => {
   return await Animal.findByIdAndDelete(
     id
   );
 }
 
-const listarAnimais = async (req, res) => {
-    return await Animal.find();
-}
-module.exports = {Animal, cadastrarAnimal, alterarAnimal, deletarAnimal, listarAnimais};
+module.exports = {Animal, cadastrarAnimal, alterarAnimal, excluirAnimal, listarAnimais};
 
 
 

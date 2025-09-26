@@ -4,9 +4,9 @@ const multer = require("multer");
 const animalController = require('../controllers/AnimalController')
 
 
-const storage = multer.diskStorage({
+ const storage = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, `${__dirname}/public`)
+    cb(null, __dirname + "/../public");;
   },
   filename: function(req, file, cb){
     cb(null, Date.now() +".jpg");
@@ -14,10 +14,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage})
     
+router.get('/cadastroanimal', (animalController.listarAnimal));
 router.post('/cadastroanimal', upload.single('imagem'), animalController.cadastrarAnimal);
 router.put('/cadastroanimal/:id', (animalController.alterarAnimal));
-// router.get('/cadastroanimal', (animalController.listarAnimal));
-// router.delete('/cadastroanimal/:id', (animalController.deletarAnimal));
+router.delete('/cadastroanimal/:id', (animalController.excluirAnimal));
 
 
 module.exports = router;
