@@ -14,10 +14,10 @@ const animalController = require('../controllers/AnimalController')
 });
 const upload = multer({storage})
     
-router.get('/cadastroanimal', (animalController.listarAnimal));
-router.post('/cadastroanimal', upload.single('imagem'), animalController.cadastrarAnimal);
-router.put('/cadastroanimal/:id', (animalController.alterarAnimal));
-router.delete('/cadastroanimal/:id', (animalController.excluirAnimal));
+router.get('/animais', (animalController.listarAnimal));
+router.post('/animais', upload.single('imagem'), animalController.cadastrarAnimal);
+router.put('/animais/:id', (animalController.alterarAnimal));
+router.delete('/animais/:id', (animalController.excluirAnimal));
 
 
 module.exports = router;
