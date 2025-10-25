@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Achamigos_Back-End-P.I-3/api.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "Achamigos_Back-End-P.I-3/api.js"
+    }
+  ]
+}
