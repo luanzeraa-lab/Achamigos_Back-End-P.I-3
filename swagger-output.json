@@ -70,7 +70,7 @@
       }
     },
     "/users": {
-      "post": {
+      "get": {
         "description": "",
         "responses": {
           "200": {
@@ -81,6 +81,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -171,6 +174,23 @@
       }
     },
     "/eventos": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
       "post": {
         "description": "",
         "responses": {
