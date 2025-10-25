@@ -1,13 +1,13 @@
 {
-  "name": "app.js",
+  "name": "api-achamigos",
   "version": "1.0.0",
-  "description": "apiAchamigos",
+  "description": "API Achamigos",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
   "main": "api.js",
   "scripts": {
-    "start": "api.js"
+    "start": "node api.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
