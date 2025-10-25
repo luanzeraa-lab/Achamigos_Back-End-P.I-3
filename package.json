@@ -5,9 +5,9 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "Achamigos_Back-End-P.I-3/api.js",
+  "main": "api.js",
   "scripts": {
-    "start": "node Achamigos_Back-End-P.I-3/api.js"
+    "start": "api.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
