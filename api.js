@@ -20,7 +20,7 @@ app.use(cors({ origin: "*" }));
 app.use('/public', express.static('public'));
 
 app.get("/", (req, res) => {
-  res.json({ message: "🚀 Microsserviço Achamigos rodando com sucesso!" });
+  res.json({ message: "🚀 Api Achamigos rodando com sucesso!" });
 });
 
 app.get('/swagger-output.json', (req, res) => {
@@ -30,7 +30,7 @@ app.get('/swagger-output.json', (req, res) => {
 const swaggerOptions = {
   customCssUrl: '/public/custom.css',
   customSiteTitle: "API Achamigos",
-  customfavIcon: "/public/AchamigosFav.png",
+  customfavIcon: "/public/fav2.png",
 };
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
 
