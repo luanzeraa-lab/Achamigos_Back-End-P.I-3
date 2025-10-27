@@ -230,12 +230,19 @@
         "description": "",
         "parameters": [
           {
-            "data_Publicacao": { "example": "any" },
-            "data_Exclusao": { "example": "any" },
-            "tipo_Evento": { "example": "any" },
-            "texto": { "example": "any" },
-            "eventoStatus": { "example": "any" },
-            "imagem": { "example": "any" }
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data_Publicacao": { "example": "any" },
+                "data_Exclusao": { "example": "any" },
+                "tipo_Evento": { "example": "any" },
+                "texto": { "example": "any" },
+                "eventoStatus": { "example": "any" },
+                "imagem": { "example": "any" }
+              }
+            }
           }
         ],
         "responses": {
