@@ -13,14 +13,39 @@ exports.listarAnimal = async (req, res) =>{
   }
 }
 
-exports.cadastrarAnimal = async (req, res) =>{
+exports.buscarAnimalPorId = async (req, res) => {
   try {
-      const animalCadastrado = await AnimalModel.cadastrarAnimal(req.body, req.file);
-       res.status(201).json(animalCadastrado)  
+    const { id } = req.params;
+    const animal = await AnimalModel.buscarAnimalPorId(id);
+
+    if (!animal) {
+      return res.status(404).json({ message: "Animal não encontrado" });
+    }
+
+    res.status(200).json(animal);
   } catch (error) {
-    return res.status(400).json({error: error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
+
+exports.cadastrarAnimal = async (req, res) => {
+    const animalData = { ...req.body };
+    if (animalData.vacinas && typeof animalData.vacinas === 'string') {
+        try {
+            animalData.vacinas = JSON.parse(animalData.vacinas);
+        } catch (e) {
+            console.error("Erro ao parsear JSON de vacinas:", e);
+            return res.status(400).json({ error: "O formato JSON das vacinas é inválido." });
+        }
+    }
+
+    try {
+        const animalCadastrado = await AnimalModel.cadastrarAnimal(animalData, req.file);
+        res.status(201).json(animalCadastrado);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
 
 exports.alterarAnimal = async (req, res) =>{
     try {

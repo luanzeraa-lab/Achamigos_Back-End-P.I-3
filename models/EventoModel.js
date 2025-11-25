@@ -1,16 +1,11 @@
 const mongoose = require('mongoose');
 
 const EventoSchema = new mongoose.Schema({
-    ///PK
-    idEvento : {type: Number},
-    //FK
-    idUsuario: {type: Number},
-    
-    data_Publicacao: {type: Date, default: Date.now },
-    data_Exclusao :{type: Date, default: Date.now },
+    nomeEvento: {type: String, required: false},
+    data: {type: Date, default: Date.now },
     tipo_Evento: {type: String},
     texto: {type: String},
-    eventoStatus :{type: String},
+    linkEvento: {type: String},
     imagem: {type: String}
 });
 const Evento = mongoose.model("Evento", EventoSchema)
@@ -20,13 +15,19 @@ const listarEvento = async (req, res) => {
 }
 
 
-const cadastrarEvento = async (dados, file) =>{
-    const newEvento = new Evento({
-        ...dados,
-         imagem: file? `../public/${file.filename}` : null
-    });
-    return await newEvento.save();
-}
+const cadastrarEvento = async (dados, file) => {
+  const newEvento = new Evento({
+    tipo_Evento: dados.tipo_Evento,
+    texto: dados.texto,
+    data: dados.data,
+    linkEvento: dados.linkEvento,
+    nomeEvento: dados.nomeEvento || dados.tipo_Evento,
+    imagem: file ? `/public/${file.filename}` : null, 
+  });
+
+  return await newEvento.save();
+};
+
 const alterarEvento = async (id, dados) =>{
     return await Evento.findByIdAndUpdate(
         id,

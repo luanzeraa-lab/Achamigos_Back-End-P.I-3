@@ -15,8 +15,6 @@ const UserSchema = new mongoose.Schema({
     senha: {type: String, required: true},
     email: {type: String, required: true},
     endereco: EnderecoSchema,
-    tipo: {type: String, required: true},
-    userStatus: {type: String, required: true},
     linkUser: {type: String}
 });
 const User = mongoose.model("User", UserSchema)
@@ -24,14 +22,6 @@ const User = mongoose.model("User", UserSchema)
 const listarUser = async (req, res) => {
     return await User.find();
 }
-
-
-// const cadastrarUser = async (dados) => {
-//   const newUser = new User({
-//     ...dados
-//   });
-//   return await newUser.save();
-// };
 
 const alterarUser = async (id, dados) => {
    return await User.findByIdAndUpdate(
